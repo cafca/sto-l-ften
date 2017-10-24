@@ -7,7 +7,7 @@ from sh import say
 from datetime import datetime, timedelta
 
 # Contains JSON lines with time series data
-DATAFILE = "./data.json"
+DATAFILE = "./data/my_room.json"
 
 # Temperature threshold for Stoßlüften detection
 SL_THRESHOLD = -0.09
