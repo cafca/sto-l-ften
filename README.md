@@ -10,10 +10,13 @@ instructing you to close window again
 - Additional notice when original temperature is restored
 - Voice output using macOS "say" command
 
+*May reqire a mac (?).*
+
 # Usage
 
-Find the Arduino code in `./DHT11/DHT11.ino`. Make sure you have the DHT11
-library installed before compiling. Connect via USB to enable serial connection.
+Connect the sensor to data port 2, then find the Arduino code in
+`./DHT11/DHT11.ino`. Make sure you have the DHT11 library installed. Connect
+via USB to enable serial connection.
 
 Install Python dependencies
 
