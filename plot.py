@@ -9,8 +9,11 @@ from datetime import datetime, timedelta
 # Contains JSON lines with time series data
 DATAFILE = "./data/my_room.json"
 
-# Temperature threshold for Stoßlüften detection
+# Temperature threshold for Stoßlüften start
 SL_THRESHOLD = -0.09
+
+# Humidity threshold for Stoßlüften end
+SL_HUM_THRESHOLD = 0.01
 
 # Parameters for voice command
 VOICE_PARAMS = ['-v', 'Oliver']
@@ -31,7 +34,7 @@ class Plot(object):
         self.axes = plt.gca()
 
         # Start datetime of current Stoßlüften
-        self.sl_start = None
+        self.sl_start = datetime.now() - timedelta(minutes=1)
 
         self.target_temperature = 20.0
 
@@ -84,11 +87,13 @@ class Plot(object):
 
         # Stoßlüften underway, wait for humidity change to return to 0
         if self.sl_start is not None:
-            if abs(sl_hum) < 0.01:
-                self.sl_start = None
+            if abs(sl_hum) < SL_HUM_THRESHOLD:
                 td = (datetime.now() - self.sl_start).seconds / 60
-                say("Achtung! Fenster schließen. {} Minuten gelüftet".format(int(td)), *VOICE_PARAMS)
+                self.sl_start = None
+                print("Venting finished")
+                say("Achtung! Fenster schließen. {} minutes have passed.".format(int(td)), *VOICE_PARAMS)
             else:
+                print("Current humchange target: {}".format(SL_HUM_THRESHOLD))
                 # Weiter lüften
                 pass
 
