@@ -82,7 +82,7 @@ class Plot(object):
         print("SLT {}".format(sl_temp))
         print("SLH {}".format(sl_hum))
 
-        #
+        # Stoßlüften underway, wait for humidity change to return to 0
         if self.sl_start is not None:
             if abs(sl_hum) < 0.01:
                 self.sl_start = None
@@ -92,12 +92,14 @@ class Plot(object):
                 # Weiter lüften
                 pass
 
+        # Check for Stoßlüften threshold to be reached
         elif sl_temp < SL_THRESHOLD:
             say("Stoßlüften aktiviert", *VOICE_PARAMS)
             self.sl_start = datetime.now()
             self.target_temperature = self.df.temperature.iloc[-180]
             print("New target temperature {} C".format(self.target_temperature))
 
+        # Check for reaching the current target temperature
         if self.target_temperature is not None:
             print("Current target: {} C".format(self.target_temperature))
             if self.df.temperature.iloc[-1] >= self.target_temperature:
