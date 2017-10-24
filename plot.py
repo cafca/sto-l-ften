@@ -34,7 +34,7 @@ class Plot(object):
         self.axes = plt.gca()
 
         # Start datetime of current Stoßlüften
-        self.sl_start = datetime.now() - timedelta(minutes=1)
+        self.sl_start = None
 
         self.target_temperature = 20.0
 
